@@ -493,3 +493,80 @@ html{
     border:0;
 
 }
+/* スマホ向け */
+@media (max-width: 768px) {
+
+    header{
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    nav{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    nav a{
+        margin: 0;
+    }
+
+    .hero h2{
+        font-size: 36px;
+    }
+
+    .hero p{
+        font-size: 18px;
+    }
+
+    .product-grid{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card{
+        width: 95%;
+        max-width: 350px;
+    }
+
+    .news-item{
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .footer-links{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 768px){
+
+    .product-container{
+        flex-direction: column;
+    }
+
+    .product-image,
+    .product-info{
+        width: 100%;
+    }
+
+    .image-frame{
+        height: 350px;
+    }
+
+}
+@media (max-width:768px){
+
+    .buy-buttons{
+        flex-direction: column;
+    }
+
+    .buy-buttons a{
+        width:100%;
+        text-align:center;
+    }
+
+}
