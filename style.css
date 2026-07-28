@@ -570,3 +570,18 @@ html{
     }
 
 }
+.product-container{
+    display:flex;
+    gap:40px;
+}
+.buy-buttons{
+    display:flex;
+    gap:15px;
+}
+.product-image{
+    width:55%;
+}
+
+.product-info{
+    width:45%;
+}
