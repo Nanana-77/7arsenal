@@ -558,18 +558,7 @@ html{
     }
 
 }
-@media (max-width:768px){
 
-    .buy-buttons{
-        flex-direction: column;
-    }
-
-    .buy-buttons a{
-        width:100%;
-        text-align:center;
-    }
-
-}
 .product-container{
     display:flex;
     gap:40px;
@@ -584,4 +573,32 @@ html{
 
 .product-info{
     width:45%;
+}
+@media (max-width:768px){
+
+    .product-page{
+        flex-direction:column;
+    }
+
+    .product-image,
+    .product-info{
+        width:100%;
+    }
+
+}
+.product-page{
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+    max-width:1200px;
+    margin:60px auto;
+    padding:20px;
+}
+
+.product-image{
+    flex:1;
+}
+
+.product-info{
+    flex:1;
 }
