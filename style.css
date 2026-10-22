@@ -499,9 +499,6 @@ html{
     line-height:1.7;
 }
 
-.products > .product-material-note{
-    text-align:center;
-}
 .description{
     max-width:1200px;
     margin:60px auto;
@@ -588,6 +585,120 @@ html{
 /* 右：説明 */
 .product-info{
     flex:1;
+}
+
+.product-info h2{
+        font-size:26px;
+        line-height:1.3;
+    }
+
+    .product-material-note{
+        font-size:14px;
+    }
+
+    .spec-table{
+        margin:20px 0;
+        font-size:14px;
+    }
+
+    .spec-table th,
+    .spec-table td{
+        padding:10px 8px;
+        vertical-align:top;
+        overflow-wrap:anywhere;
+    }
+
+    .spec-table th{
+        width:96px;
+    }
+
+    .buy-links{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:10px;
+    }
+
+    .buy-links .detail-button,
+    .detail-button{
+        min-height:44px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:10px 14px;
+        text-align:center;
+        font-size:14px;
+    }
+
+    .kit-page-description{
+        font-size:14px;
+        line-height:1.8;
+    }
+
+    .kit-page-intro{
+        margin:0 0 18px;
+        font-size:14px;
+        line-height:1.6;
+    }
+
+    .kit-component-grid{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .kit-component{
+        padding:14px;
+    }
+
+    .kit-card-placeholder{
+        aspect-ratio:4 / 3;
+        height:auto;
+    }
+
+    .sketchfab-container{
+        aspect-ratio:4 / 3;
+    }
+
+    footer{
+        margin-top:44px;
+        padding:32px 16px;
+    }
+
+    .footer-links{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:10px;
+    }
+
+    .footer-links a{
+        justify-content:center;
+        padding:10px 8px;
+        font-size:13px;
+    }
+}
+
+@media (max-width:380px){
+    header{
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+    }
+
+    header nav{
+        justify-content:center;
+    }
+
+    .product-grid{
+        grid-template-columns:1fr;
+    }
+
+    .card img{
+        aspect-ratio:16 / 10;
+    }
+
+    .news-item{
+        flex-direction:column;
+        gap:4px;
+    }
 }
 
 .product-info h2{
@@ -775,3 +886,195 @@ html{
 .product-info{
     flex:1;
 }
+
+/* Compact, touch-friendly layouts for phones */
+@media (max-width:600px){
+    body{
+        font-size:15px;
+    }
+
+    header{
+        align-items:flex-start;
+        gap:14px;
+        padding:14px 16px;
+        text-align:left;
+    }
+
+    .logo{
+        gap:9px;
+        min-width:0;
+    }
+
+    .logo img{
+        width:42px;
+        height:42px;
+    }
+
+    .logo h1,
+    header h1{
+        font-size:20px;
+        line-height:1.25;
+    }
+
+    header nav{
+        justify-content:flex-end;
+        gap:6px 12px;
+        font-size:13px;
+    }
+
+    nav a{
+        white-space:nowrap;
+    }
+
+    .breadcrumbs{
+        margin-top:8px;
+        padding:0 16px;
+        font-size:12px;
+    }
+
+    .hero{
+        height:auto;
+        min-height:58svh;
+        padding:56px 20px;
+    }
+
+    .hero h2{
+        font-size:clamp(30px, 9vw, 42px);
+        line-height:1.2;
+    }
+
+    .hero p{
+        font-size:16px;
+        line-height:1.7;
+        margin-bottom:26px;
+    }
+
+    button{
+        min-height:44px;
+        padding:11px 20px;
+        font-size:16px;
+    }
+
+    .products,
+    .news,
+    .kit-page,
+    .description,
+    .model-viewer{
+        margin:36px auto;
+        padding:0 16px;
+    }
+
+    .products h2,
+    .model-viewer h2{
+        margin-bottom:22px;
+        font-size:28px;
+    }
+
+    .category-filter{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:8px;
+        margin-bottom:18px;
+    }
+
+    .category-button{
+        min-height:42px;
+        padding:8px 10px;
+        font-size:14px;
+    }
+
+    .product-grid{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        justify-content:stretch;
+        gap:12px;
+    }
+
+    .card{
+        width:auto;
+        max-width:none;
+        min-width:0;
+    }
+
+    .card:hover{
+        transform:none;
+    }
+
+    .card img{
+        height:auto;
+        aspect-ratio:4 / 3;
+    }
+
+    .card h3{
+        padding:11px 10px 6px;
+        font-size:15px;
+        line-height:1.4;
+        overflow-wrap:anywhere;
+    }
+
+    .card p{
+        padding:0 10px 12px;
+        font-size:13px;
+        line-height:1.55;
+        overflow-wrap:anywhere;
+    }
+
+    .badge{
+        top:8px;
+        left:8px;
+        padding:4px 7px;
+        font-size:11px;
+    }
+
+    .news h2,
+    .kit-page > h2{
+        font-size:28px;
+    }
+
+    .news-item{
+        flex-direction:row;
+        gap:10px;
+        padding:14px;
+        font-size:14px;
+        line-height:1.6;
+    }
+
+    .date{
+        min-width:84px;
+        font-size:12px;
+    }
+
+    .product-page{
+        display:flex;
+        flex-direction:column;
+        gap:24px;
+        margin:30px auto;
+        padding:0 16px;
+    }
+
+    .product-image,
+    .product-info{
+        width:100%;
+        max-width:none;
+    }
+
+    .product-image #mainImage{
+        width:100%;
+        max-width:none;
+        max-height:60svh;
+        object-fit:contain;
+        background:#111;
+    }
+
+    .thumbnail-list{
+        gap:9px;
+        padding:2px 2px 8px;
+        overflow-x:auto;
+        overscroll-behavior-x:contain;
+    }
+
+    .thumbnail-list img{
+        flex:0 0 68px;
+        width:68px;
+        height:68px;
+    }
