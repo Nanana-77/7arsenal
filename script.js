@@ -130,7 +130,7 @@ const orderablePages = {
     "products/ls-arii/kaizou-set.html": {sku:"KIT-001", name:"改修セット（6kh4）", price:3500, unpaintedPrice:3000, type:"kit", bodyModel:"6kh4", hangers:1},
     "products/ls-arii/kaizou-set-6kh3-6kh4.html": {sku:"KIT-002", name:"改修セット（6kh3・6kh4）", price:6500, unpaintedPrice:5500, type:"kit", bodyModel:"6kh3", hangers:2},
     "products/ls-arii/6kh3-body.html": {sku:"KIT-006", name:"6kh3本体", price:3500, unpaintedPrice:3000, type:"bayonet", bodyModel:"6kh3"},
-    "products/ls-arii/saya.html": {sku:"KIT-003", name:"6kh4鞘単品", price:1500},
+    "products/ls-arii/saya.html": {sku:"KIT-003", name:"6kh4鞘単品", price:2000, unpaintedPrice:1500},
     "products/ls-arii/toushin.html": {sku:"KIT-004", name:"刀身単品", price:1000, type:"blade"},
     "products/ls-arii/strap.html": {sku:"KIT-005", name:"ストラップ", price:300},
     "products/ls-arii/ken-tsuri.html": {sku:"ACC-001", name:"AK系用銃剣吊り", options:[{label:"素材・色", choices:[{label:"合皮・ブラウン", sku:"ACC-001-S-B", price:500},{label:"合皮・グレー", sku:"ACC-001-S-G", price:500},{label:"本革・ブラウン", sku:"ACC-001-L-B", price:800},{label:"本革・グレー", sku:"ACC-001-L-G", price:800}]}]}
@@ -457,6 +457,18 @@ if (currentOrderProduct?.orderable === false) {
             variant = `${paintName}・${material}・剣吊り ${hangerNames}`;
         });
         controls.dispatchEvent(new Event("change"));
+    } else if (currentOrderProduct.unpaintedPrice != null) {
+        controls.innerHTML = `
+            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ガレージキット版（未塗装・未組立）にする</label>
+            <button type="button" class="add-to-cart-button">カートに追加</button>`;
+        const updateFinish = () => {
+            const unpainted = controls.querySelector('input[name="unpainted"]').checked;
+            currentSku = `${currentOrderProduct.sku}-${unpainted ? "U" : "P"}`;
+            currentPrice = unpainted ? currentOrderProduct.unpaintedPrice : currentOrderProduct.price;
+            variant = unpainted ? "未塗装" : "塗装済み";
+        };
+        controls.addEventListener("change", updateFinish);
+        updateFinish();
     } else if (currentOrderProduct.options) {
         const optionMarkup = currentOrderProduct.options.map(option => `
             <fieldset><legend>${option.label}を選択</legend>
