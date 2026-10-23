@@ -120,15 +120,15 @@ fetch(sheetURL)
 const sharedCatalogApiUrl = "";
 
 const orderablePages = {
-    "products/6kh2ussr.html": {sku:"BAY-001", name:"6kh2タイプ バヨネット", price:4500, type:"bayonet"},
-    "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット（ガレージキット版）", price:5000, type:"bayonet"},
+    "products/6kh2ussr.html": {sku:"BAY-001", name:"6kh2タイプ バヨネット", price:4500, unpaintedPrice:4500, type:"bayonet"},
+    "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット（ガレージキット版）", price:6500, unpaintedPrice:5000, type:"bayonet"},
     "products/6kh4ussr.html": {sku:"BAY-003", name:"6kh4タイプ バヨネット", price:6500, type:"bayonet", orderable:false},
     "products/F1.html": {sku:"GREN-001", name:"F-1グレネード", price:1200},
     "products/rgd.html": {sku:"GREN-002", name:"RGD-5グレネード", price:1200},
     "products/turi.html": {sku:"ACC-001", name:"AK系用銃剣吊り", options:[{label:"素材・色", choices:[{label:"合皮・ブラウン", sku:"ACC-001-S-B", price:500},{label:"合皮・グレー", sku:"ACC-001-S-G", price:500},{label:"本革・ブラウン", sku:"ACC-001-L-B", price:800},{label:"本革・グレー", sku:"ACC-001-L-G", price:800}]}]},
     "products/sight.html": {sku:"ACC-002", name:"AKリアサイトシリーズ", options:[{label:"製造国", choices:[{label:"ソ連", sku:"ACC-002-USSR", price:1000},{label:"北朝鮮", sku:"ACC-002-DPRK", price:1000},{label:"東ドイツ", sku:"ACC-002-GDR", price:1000},{label:"中国", sku:"ACC-002-CHN", price:1000},{label:"イラク", sku:"ACC-002-IRQ", price:1000}]}]},
-    "products/ls-arii/kaizou-set.html": {sku:"KIT-001", name:"改修セット（6kh4）", price:3000, type:"kit", bodyModel:"6kh4", hangers:1},
-    "products/ls-arii/kaizou-set-6kh3-6kh4.html": {sku:"KIT-002", name:"改修セット（6kh3・6kh4）", price:5500, type:"kit", bodyModel:"6kh3", hangers:2},
+    "products/ls-arii/kaizou-set.html": {sku:"KIT-001", name:"改修セット（6kh4）", price:3500, unpaintedPrice:3000, type:"kit", bodyModel:"6kh4", hangers:1},
+    "products/ls-arii/kaizou-set-6kh3-6kh4.html": {sku:"KIT-002", name:"改修セット（6kh3・6kh4）", price:6500, unpaintedPrice:5500, type:"kit", bodyModel:"6kh3", hangers:2},
     "products/ls-arii/saya.html": {sku:"KIT-003", name:"6kh4鞘単品", price:1500},
     "products/ls-arii/toushin.html": {sku:"KIT-004", name:"刀身単品", price:1000, type:"blade"},
     "products/ls-arii/strap.html": {sku:"KIT-005", name:"ストラップ", price:300},
@@ -367,6 +367,7 @@ if (currentOrderProduct?.orderable === false) {
             const paintName = unpainted ? "未塗装" : paint.value === "B" ? "ベークライト塗装" : "東独風ブラック";
             const suffix = material === "PLA+" ? "P" : "S";
             currentSku = `${currentOrderProduct.sku}-${paintCode}-${suffix}`;
+            currentPrice = unpainted ? currentOrderProduct.unpaintedPrice : currentOrderProduct.price;
             variant = `${paintName}・${material}`;
         };
         controls.addEventListener("change", updateVariant);
@@ -411,7 +412,8 @@ if (currentOrderProduct?.orderable === false) {
             const paintCode = unpainted ? "U" : paint.value;
             const paintName = unpainted ? "未塗装" : paint.value === "B" ? "ベークライト塗装" : "東独風ブラック";
             currentSku = `${currentOrderProduct.sku}-${selected}-${paintCode}-${material === "PLA+" ? "P" : "S"}`;
-            currentPrice = currentOrderProduct.price + hangers.filter(input => input.checked).length * 300;
+            const bodyPrice = unpainted ? currentOrderProduct.unpaintedPrice : currentOrderProduct.price;
+            currentPrice = bodyPrice + hangers.filter(input => input.checked).length * 300;
             const hangerNames = hangers.map((input, index) => `${input.checked ? "本革" : "合皮"}・${colors[index].value === "B" ? "ブラウン" : "グレー"}`).join("／");
             variant = `${paintName}・${material}・剣吊り ${hangerNames}`;
         });
