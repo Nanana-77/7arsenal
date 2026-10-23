@@ -432,6 +432,38 @@ html{
 .info-tab-panel ul{
     padding-left:1.4em;
 }
+
+.material-table-wrap{
+    margin-top:12px;
+    overflow-x:auto;
+}
+
+.material-feature-table{
+    width:100%;
+    min-width:620px;
+    border-collapse:collapse;
+    text-align:left;
+    font-size:14px;
+}
+
+.material-feature-table th,
+.material-feature-table td{
+    padding:9px 10px;
+    border:1px solid #555;
+    vertical-align:top;
+}
+
+.material-feature-table thead th{
+    background:#333;
+}
+
+.material-feature-table tbody th{
+    white-space:nowrap;
+}
+
+.material-feature-note{
+    font-size:13px;
+}
 .detail-button{
     display:inline-block;
     padding:12px 30px;
