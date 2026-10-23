@@ -195,6 +195,11 @@ cartWidget.innerHTML = `
             <label><input type="checkbox" name="sale-mode" value="mercari"> メルカリ（販売手数料10%分を加算）</label>
             <label><input type="checkbox" name="sale-mode" value="yahoo"> Yahoo!フリマ（販売手数料5%分を加算）</label>
         </div>
+        <div class="payment-methods" role="group" aria-label="お支払い方法の希望">
+            <strong>お支払い方法の希望（直接取引）</strong>
+            <label><input type="radio" name="payment-method" value="paypay" checked> PAYPAY</label>
+            <label><input type="radio" name="payment-method" value="bank-transfer"> 銀行振込</label>
+        </div>
         <form class="order-form">
             <p class="order-total">合計（送料別）<strong>¥0</strong></p>
             <button type="submit" class="order-submit">Googleフォームで注文する</button>
@@ -236,6 +241,10 @@ const renderCart = () => {
 };
 
 const selectedSaleMode = () => cartWidget.querySelector('input[name="sale-mode"]:checked')?.value || "direct";
+const selectedPaymentMethod = () => cartWidget.querySelector('input[name="payment-method"]:checked')?.value === "bank-transfer" ? "銀行振込" : "PAYPAY";
+const updatePaymentMethodVisibility = () => {
+    cartWidget.querySelector(".payment-methods").hidden = selectedSaleMode() !== "direct";
+};
 const getCartTotals = () => {
     const base = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const feeRate = selectedSaleMode() === "mercari" ? 0.10 : selectedSaleMode() === "yahoo" ? 0.05 : 0;
@@ -261,7 +270,9 @@ cartWidget.addEventListener("change", event => {
     } else if (event.target.matches('input[name="sale-mode"]') && !event.target.checked && !cartWidget.querySelector('input[name="sale-mode"]:checked')) {
         event.target.checked = true;
     }
+    updatePaymentMethodVisibility();
 });
+updatePaymentMethodVisibility();
 
 cartWidget.addEventListener("click", event => {
     const button = event.target.closest("[data-cart-action]");
@@ -291,6 +302,7 @@ form.addEventListener("submit", async event => {
     const body = [
         `注文番号：${orderNumber}`,
         `販売形式：${modeNames[selectedSaleMode()]}`,
+        `お支払い方法の希望：${selectedSaleMode() === "direct" ? selectedPaymentMethod() : "販売形式に準じる"}`,
         "",
         "注文商品：",
         ...orderLines,
@@ -464,6 +476,28 @@ if (currentOrderProduct?.orderable === false) {
 }
 
 renderCart();
+
+const infoTabs = [...document.querySelectorAll(".info-tab")];
+const activateInfoTab = tab => {
+    infoTabs.forEach(item => {
+        const active = item === tab;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-selected", String(active));
+        item.tabIndex = active ? 0 : -1;
+        document.getElementById(item.getAttribute("aria-controls")).hidden = !active;
+    });
+};
+infoTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateInfoTab(tab));
+    tab.addEventListener("keydown", event => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const next = infoTabs[(index + direction + infoTabs.length) % infoTabs.length];
+        activateInfoTab(next);
+        next.focus();
+    });
+});
 
 function renderSharedCatalog(response){
     const grid = document.querySelector(".products .product-grid");

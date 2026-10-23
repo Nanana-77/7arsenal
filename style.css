@@ -365,6 +365,73 @@ html{
 .news-more-link{
     margin:20px auto 0;
 }
+
+.info-tabs-section{
+    max-width:1000px;
+    margin:70px auto 0;
+    padding:0 20px;
+}
+
+.info-tabs{
+    display:flex;
+    gap:8px;
+    border-bottom:1px solid #555;
+}
+
+.info-tab{
+    min-height:46px;
+    padding:10px 18px;
+    border:1px solid #555;
+    border-bottom:0;
+    background:#242424;
+    color:#fff;
+    font:inherit;
+    cursor:pointer;
+}
+
+.info-tab.is-active{
+    background:#c1121f;
+    border-color:#c1121f;
+}
+
+.info-tab:focus-visible{
+    outline:2px solid #fff;
+    outline-offset:2px;
+}
+
+.info-tab-panel{
+    padding:20px;
+    background:#242424;
+    line-height:1.8;
+}
+
+.info-tab-panel[hidden]{
+    display:none;
+}
+
+.info-tab-panel details{
+    padding:12px 0;
+    border-bottom:1px solid #444;
+}
+
+.info-tab-panel details:last-child{
+    border-bottom:0;
+}
+
+.info-tab-panel summary{
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.info-tab-panel p,
+.info-tab-panel ul{
+    margin:8px 0 0;
+    color:#ddd;
+}
+
+.info-tab-panel ul{
+    padding-left:1.4em;
+}
 .detail-button{
     display:inline-block;
     padding:12px 30px;
@@ -982,6 +1049,7 @@ html{
 }
 
 .cart-fee-modes,
+.payment-methods,
 .order-form{
     display:grid;
     gap:10px;
@@ -991,6 +1059,7 @@ html{
 }
 
 .cart-fee-modes label,
+.payment-methods label,
 .order-form label{
     font-size:14px;
 }
@@ -1021,6 +1090,10 @@ html{
 }
 
 .order-form [hidden]{
+    display:none !important;
+}
+
+.payment-methods[hidden]{
     display:none !important;
 }
 
