@@ -121,7 +121,7 @@ const sharedCatalogApiUrl = "";
 
 const orderablePages = {
     "products/6kh2ussr.html": {sku:"BAY-001", name:"6kh2タイプ バヨネット", price:4500, unpaintedPrice:4000, type:"bayonet"},
-    "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット（ガレージキット版）", price:6500, unpaintedPrice:5000, type:"bayonet"},
+    "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット", price:6500, unpaintedPrice:5000, type:"bayonet"},
     "products/6kh4ussr.html": {sku:"BAY-003", name:"6kh4タイプ バヨネット", price:6500, type:"bayonet", orderable:false},
     "products/F1.html": {sku:"GREN-001", name:"F-1グレネード", price:1200},
     "products/rgd.html": {sku:"GREN-002", name:"RGD-5グレネード", price:1200},
@@ -356,7 +356,7 @@ if (currentOrderProduct?.orderable === false) {
             <label class="paint-style-option">塗装仕様
                 <select name="paint-style"><option value="B">ベークライト塗装</option><option value="G">東独風ブラック</option></select>
             </label>
-            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ${model}未塗装版にする</label>
+            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ${model}ガレージキット版（未塗装・未組立）にする</label>
             <button type="button" class="add-to-cart-button">カートに追加</button>`;
         const updateVariant = () => {
             const material = controls.querySelector('input[name="blade-material"]:checked').value;
@@ -364,7 +364,7 @@ if (currentOrderProduct?.orderable === false) {
             const paint = controls.querySelector('select[name="paint-style"]');
             paint.disabled = unpainted;
             const paintCode = unpainted ? "U" : paint.value;
-            const paintName = unpainted ? "未塗装" : paint.value === "B" ? "ベークライト塗装" : "東独風ブラック";
+            const paintName = unpainted ? "ガレージキット版（未塗装・未組立）" : paint.value === "B" ? "ベークライト塗装" : "東独風ブラック";
             const suffix = material === "PLA+" ? "P" : "S";
             currentSku = `${currentOrderProduct.sku}-${paintCode}-${suffix}`;
             currentPrice = unpainted ? currentOrderProduct.unpaintedPrice : currentOrderProduct.price;
@@ -396,7 +396,7 @@ if (currentOrderProduct?.orderable === false) {
             <label class="paint-style-option">本体の塗装仕様
                 <select name="paint-style"><option value="B">ベークライト塗装</option><option value="G">東独風ブラック</option></select>
             </label>
-            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ${currentOrderProduct.bodyModel}本体を未塗装にする</label>
+            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ${currentOrderProduct.bodyModel}本体をガレージキット版（未塗装・未組立）にする</label>
             <label class="kit-blade-option">セット刀身素材
                 <select name="kit-blade"><option value="PLA+">PLA+</option><option value="シルクPLA" selected>シルクPLA</option></select>
             </label>
@@ -410,7 +410,7 @@ if (currentOrderProduct?.orderable === false) {
             const paint = controls.querySelector('select[name="paint-style"]');
             paint.disabled = unpainted;
             const paintCode = unpainted ? "U" : paint.value;
-            const paintName = unpainted ? "未塗装" : paint.value === "B" ? "ベークライト塗装" : "東独風ブラック";
+            const paintName = unpainted ? "ガレージキット版（未塗装・未組立）" : paint.value === "B" ? "ベークライト塗装" : "東独風ブラック";
             currentSku = `${currentOrderProduct.sku}-${selected}-${paintCode}-${material === "PLA+" ? "P" : "S"}`;
             const bodyPrice = unpainted ? currentOrderProduct.unpaintedPrice : currentOrderProduct.price;
             currentPrice = bodyPrice + hangers.filter(input => input.checked).length * 300;
