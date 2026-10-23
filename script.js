@@ -75,73 +75,61 @@ const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8BMJVJDYwKlP
 const statusText = {
     stock: "在庫あり",
     plan: "製作中",
-    soldout: "完売・受注生産",
+    soldout: "在庫なし・受注生産",
     test: "試作中",
     secret: "計画中"
 };
+
+const inventoryStatusById = new Map();
+function applyInventoryStatuses(){
+    document.querySelectorAll("[data-product]").forEach(item => {
+        const status = inventoryStatusById.get(item.dataset.product);
+        if (!status) return;
+        let badge = item.querySelector("[data-inventory-status]");
+        if (!badge) badge = item.querySelector(".badge:not(.kit-part-badge)");
+        if (!badge) {
+            badge = document.createElement("span");
+            item.prepend(badge);
+        }
+        badge.dataset.inventoryStatus = "";
+        badge.className = `badge inventory-status-badge ${status}`;
+        badge.textContent = statusText[status] || status;
+    });
+}
 
 fetch(sheetURL)
     .then(response => response.text())
     .then(csv => {
 
-        const rows = csv.trim().split("\n");
+        const rows = csv.trim().split(/\r?\n/);
         rows.shift(); // 見出しを削除
 
         rows.forEach(row => {
 
             const [id, status] = row.split(",").map(item => item.trim());
+            if (!id || !status) return;
 
-            console.log("ID:", id);
-            console.log("Status:", status);
-
-            const items = document.querySelectorAll(`[data-product="${id}"]`);
-            console.log("見つかった要素数:", items.length);
-
-            items.forEach(item => {
-
-                const badge = item.querySelector(".badge");
-
-                if (!badge) return;
-
-                badge.className = `badge ${status}`;
-                badge.textContent = statusText[status] || status;
-
-            });
-
+            inventoryStatusById.set(id, status);
         });
+        applyInventoryStatuses();
 
     })
     .catch(error => console.error(error));
 
-// Product numbers, options, and a browser-based order request cart.
-const productNumberById = {
-    "6kh2ussr": "BAY-001",
-    "6kh3ussr": "BAY-002",
-    "6kh4ussr": "BAY-003",
-    "56h": "BAY-004",
-    "68": "BAY-005",
-    "gew98": "BAY-006",
-    "F1": "GREN-001",
-    "rgd": "GREN-002",
-    "turi": "ACC-001",
-    "sight": "ACC-002",
-    "ls-arii": "KIT-001 / KIT-002"
-};
-
-// Set to the deployed Apps Script /exec URL after setup (see apps-script/README.md).
+// Optional shared product catalog URL.
 const sharedCatalogApiUrl = "";
 
 const orderablePages = {
     "products/6kh2ussr.html": {sku:"BAY-001", name:"6kh2タイプ バヨネット", price:4500, type:"bayonet"},
-    "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット", price:6500, type:"bayonet"},
-    "products/6kh4ussr.html": {sku:"BAY-003", name:"6kh4タイプ バヨネット", price:6500, type:"bayonet"},
+    "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット（ガレージキット版）", price:5000, type:"bayonet"},
+    "products/6kh4ussr.html": {sku:"BAY-003", name:"6kh4タイプ バヨネット", price:6500, type:"bayonet", orderable:false},
     "products/F1.html": {sku:"GREN-001", name:"F-1グレネード", price:1200},
     "products/rgd.html": {sku:"GREN-002", name:"RGD-5グレネード", price:1200},
     "products/turi.html": {sku:"ACC-001", name:"AK系用銃剣吊り", options:[{label:"素材・色", choices:[{label:"合皮・ブラウン", sku:"ACC-001-S-B", price:500},{label:"合皮・グレー", sku:"ACC-001-S-G", price:500},{label:"本革・ブラウン", sku:"ACC-001-L-B", price:800},{label:"本革・グレー", sku:"ACC-001-L-G", price:800}]}]},
     "products/sight.html": {sku:"ACC-002", name:"AKリアサイトシリーズ", options:[{label:"製造国", choices:[{label:"ソ連", sku:"ACC-002-USSR", price:1000},{label:"北朝鮮", sku:"ACC-002-DPRK", price:1000},{label:"東ドイツ", sku:"ACC-002-GDR", price:1000},{label:"中国", sku:"ACC-002-CHN", price:1000},{label:"イラク", sku:"ACC-002-IRQ", price:1000}]}]},
-    "products/ls-arii/kaizou-set.html": {sku:"KIT-001", name:"改造キット（6kh4版）", price:3500, type:"kit", bodyModel:"6kh4", hangers:1},
-    "products/ls-arii/kaizou-set-6kh3-6kh4.html": {sku:"KIT-002", name:"改造キット（6kh3・6kh4版）", price:6500, type:"kit", bodyModel:"6kh3", hangers:2},
-    "products/ls-arii/saya.html": {sku:"KIT-003", name:"鞘", price:2000},
+    "products/ls-arii/kaizou-set.html": {sku:"KIT-001", name:"改修セット（6kh4）", price:3000, type:"kit", bodyModel:"6kh4", hangers:1},
+    "products/ls-arii/kaizou-set-6kh3-6kh4.html": {sku:"KIT-002", name:"改修セット（6kh3・6kh4）", price:5500, type:"kit", bodyModel:"6kh3", hangers:2},
+    "products/ls-arii/saya.html": {sku:"KIT-003", name:"6kh4鞘単品", price:1500},
     "products/ls-arii/toushin.html": {sku:"KIT-004", name:"刀身単品", price:1000, type:"blade"},
     "products/ls-arii/strap.html": {sku:"KIT-005", name:"ストラップ", price:300},
     "products/ls-arii/ken-tsuri.html": {sku:"ACC-001", name:"AK系用銃剣吊り", options:[{label:"素材・色", choices:[{label:"合皮・ブラウン", sku:"ACC-001-S-B", price:500},{label:"合皮・グレー", sku:"ACC-001-S-G", price:500},{label:"本革・ブラウン", sku:"ACC-001-L-B", price:800},{label:"本革・グレー", sku:"ACC-001-L-G", price:800}]}]}
@@ -159,18 +147,6 @@ const addProductNumber = (element, number) => {
     label.textContent = `商品番号：${number}`;
     element.appendChild(label);
 };
-
-document.querySelectorAll(".product-grid .card[data-product]").forEach(card => {
-    const number = productNumberById[card.dataset.product];
-    if (number) addProductNumber(card, number);
-});
-
-if (location.pathname === new URL("products/ls-arii.html", siteRoot).pathname) {
-    document.querySelectorAll(".kit-card-grid .card").forEach((card, index) => {
-        const numbers = ["KIT-001", "KIT-002", "KIT-003", "KIT-004", "ACC-001", "KIT-005"];
-        addProductNumber(card, numbers[index]);
-    });
-}
 
 if (currentOrderProduct) {
     const info = document.querySelector(".product-info");
@@ -348,7 +324,13 @@ cartWidget.querySelector(".copy-order-summary").addEventListener("click", async 
     }
 });
 
-if (currentOrderProduct) {
+if (currentOrderProduct?.orderable === false) {
+    const info = document.querySelector(".product-info");
+    const notice = document.createElement("p");
+    notice.className = "prototype-note";
+    notice.textContent = "試作中のため、現在カートへの追加はできません。";
+    info.appendChild(notice);
+} else if (currentOrderProduct) {
     const info = document.querySelector(".product-info");
     const controls = document.createElement("div");
     controls.className = "product-order-controls";
@@ -469,54 +451,6 @@ if (currentOrderProduct) {
     info.appendChild(controls);
 }
 
-if (isHomePage) {
-    const productGrid = document.querySelector(".products .product-grid");
-    if (productGrid) {
-        const unpaintedSection = document.createElement("section");
-        unpaintedSection.className = "unpainted-order-section";
-        unpaintedSection.innerHTML = `
-            <h3>銃剣 未塗装版</h3>
-            <p>チェックした商品をカートに追加できます。未塗装版もベークライト塗装・東独風ブラックと同額です。素材を選んでください。</p>
-            <div class="unpainted-product-options">
-                <label><input type="checkbox" data-unpainted-sku="BAY-001" data-unpainted-name="6kh2タイプ バヨネット 未塗装版" data-unpainted-price="4500"> 6kh2（¥4,500+送） <select aria-label="6kh2未塗装版の刀身素材"><option>PLA+</option><option>シルクPLA</option></select><span>個数 <input type="number" class="unpainted-quantity" min="1" max="99" value="1" inputmode="numeric"></span></label>
-                <label><input type="checkbox" data-unpainted-sku="BAY-002" data-unpainted-name="6kh3タイプ バヨネット 未塗装版" data-unpainted-price="6500"> 6kh3（¥6,500+送） <select aria-label="6kh3未塗装版の刀身素材"><option>PLA+</option><option>シルクPLA</option></select><span>個数 <input type="number" class="unpainted-quantity" min="1" max="99" value="1" inputmode="numeric"></span></label>
-                <label><input type="checkbox" data-unpainted-sku="BAY-003" data-unpainted-name="6kh4タイプ バヨネット 未塗装版" data-unpainted-price="6500"> 6kh4（¥6,500+送） <select aria-label="6kh4未塗装版の刀身素材"><option>PLA+</option><option>シルクPLA</option></select><span>個数 <input type="number" class="unpainted-quantity" min="1" max="99" value="1" inputmode="numeric"></span></label>
-            </div>
-            <button type="button" class="add-selected-unpainted">選択した未塗装版をカートに追加</button>`;
-        productGrid.insertAdjacentElement("afterend", unpaintedSection);
-        unpaintedSection.querySelectorAll(".unpainted-product-options label").forEach(label => {
-            const checkbox = label.querySelector('input[type="checkbox"]');
-            const material = label.querySelector("select");
-            const code = document.createElement("small");
-            code.className = "unpainted-sku";
-            const updateCode = () => {
-                code.textContent = `商品番号：${checkbox.dataset.unpaintedSku}-U-${material.value === "PLA+" ? "P" : "S"}`;
-            };
-            material.addEventListener("change", updateCode);
-            label.appendChild(code);
-            updateCode();
-        });
-        unpaintedSection.querySelector(".add-selected-unpainted").addEventListener("click", () => {
-            const selected = [...unpaintedSection.querySelectorAll('input[type="checkbox"][data-unpainted-sku]:checked')];
-            if (!selected.length) {
-                alert("未塗装版を選択してください。");
-                return;
-            }
-            selected.forEach(input => {
-                const material = input.closest("label").querySelector("select").value;
-                const suffix = material === "PLA+" ? "P" : "S";
-                const price = input.dataset.unpaintedPrice === "" ? 0 : Number(input.dataset.unpaintedPrice);
-                const item = createCartItem(`${input.dataset.unpaintedSku}-U-${suffix}`, input.dataset.unpaintedName, price, `未塗装・${material}`);
-                item.quantity = Math.max(1, Math.min(99, Number(input.closest("label").querySelector(".unpainted-quantity").value) || 1));
-                item.quoteRequired = input.dataset.unpaintedPrice === "";
-                addCartItem(item);
-                input.checked = false;
-            });
-            cartWidget.open = true;
-        });
-    }
-}
-
 renderCart();
 
 function renderSharedCatalog(response){
@@ -533,6 +467,7 @@ function renderSharedCatalog(response){
         if (product.statusKey) {
             const badge = document.createElement("span");
             badge.className = "badge";
+            badge.dataset.inventoryStatus = "";
             badge.textContent = "在庫確認";
             card.appendChild(badge);
         }
@@ -551,10 +486,7 @@ function renderSharedCatalog(response){
         title.textContent = product.name;
         const price = document.createElement("p");
         price.textContent = product.price == null ? "価格確認中" : `${yen(product.price)}+送`;
-        const number = document.createElement("p");
-        number.className = "product-number";
-        number.textContent = `商品番号：${product.sku}`;
-        card.append(title, price, number);
+        card.append(title, price);
         if (product.description) {
             const description = document.createElement("p");
             description.textContent = product.description;
@@ -562,6 +494,7 @@ function renderSharedCatalog(response){
         }
         grid.appendChild(card);
     });
+    applyInventoryStatuses();
 }
 
 if (sharedCatalogApiUrl) {
