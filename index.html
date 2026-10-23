@@ -220,7 +220,18 @@
     </div>
 
 </section>
-<footer id="contact" >
+<section id="contact" class="contact-inquiry" aria-labelledby="contact-inquiry-title">
+    <h2 id="contact-inquiry-title">お問い合わせ</h2>
+    <p>お問い合わせ内容をご自由に入力してください。送信すると内容をコピーしてGoogleフォームを開きます。「備考」欄に貼り付けて送信してください。</p>
+    <form id="contact-inquiry-form">
+        <label for="contact-inquiry-message">お問い合わせ内容</label>
+        <textarea id="contact-inquiry-message" name="message" rows="7" required maxlength="5000" placeholder="お問い合わせ内容を入力"></textarea>
+        <button type="submit">Googleフォームで送信する</button>
+        <p class="contact-inquiry-status" role="status" aria-live="polite"></p>
+    </form>
+</section>
+
+<footer id="social">
 
     <h3>第七造兵廠 SNS・お問い合わせ</h3>
 

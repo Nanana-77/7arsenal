@@ -1024,6 +1024,66 @@ html{
     display:none !important;
 }
 
+.contact-inquiry{
+    max-width:900px;
+    margin:60px auto;
+    padding:24px;
+    background:#242424;
+    border:1px solid #444;
+}
+
+.contact-inquiry h2{
+    margin-bottom:12px;
+    text-align:center;
+}
+
+.contact-inquiry > p,
+.contact-inquiry-status{
+    color:#ccc;
+    line-height:1.7;
+}
+
+.contact-inquiry form{
+    display:grid;
+    gap:12px;
+    margin-top:20px;
+}
+
+.contact-inquiry label{
+    font-weight:bold;
+}
+
+.contact-inquiry textarea{
+    width:100%;
+    min-height:170px;
+    padding:12px;
+    color:#fff;
+    background:#171717;
+    border:1px solid #777;
+    font:inherit;
+    line-height:1.6;
+    resize:vertical;
+}
+
+.contact-inquiry button{
+    min-height:48px;
+    padding:10px 16px;
+    color:#fff;
+    background:#c1121f;
+    border:0;
+    font:inherit;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.contact-inquiry button:hover{
+    background:#780000;
+}
+
+.contact-inquiry-status:empty{
+    display:none;
+}
+
 .order-total{
     display:grid;
     gap:5px;
