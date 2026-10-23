@@ -25,20 +25,20 @@ function setupCatalog() {
   const sheet = getProductSheet_();
   if (sheet.getLastRow() <= 1) {
     const initial = [
-      ["BAY-001", "6kh2タイプ バヨネット", "bayonet", 4500, "images/products/6kh21.jpg", "products/6kh2ussr.html", "6kh2タイプ銃剣", true, "6kh2ussr"],
-      ["BAY-002", "6kh3タイプ バヨネット", "bayonet", 6500, "images/products/6kh31.jpg", "products/6kh3ussr.html", "6kh3タイプ銃剣", true, "6kh3ussr"],
+      ["BAY-001", "6kh2タイプ バヨネット", "bayonet", 4500, "images/商品/6kh21.jpg", "products/6kh2ussr.html", "6kh2タイプ銃剣", true, "6kh2ussr"],
+      ["BAY-002", "6kh3タイプ バヨネット", "bayonet", 6500, "images/商品/6kh31.jpg", "products/6kh3ussr.html", "6kh3タイプ銃剣", true, "6kh3ussr"],
       ["BAY-003", "6kh4タイプ バヨネット", "bayonet", 6500, "", "products/6kh4ussr.html", "6kh4タイプ銃剣。写真準備中。", true, "6kh4ussr"],
-      ["BAY-004", "56式半用銃剣", "bayonet", "", "images/products/56h1.jpg", "products/56h.html", "", true, "56h"],
-      ["BAY-005", "68式銃剣", "bayonet", "", "images/products/681.jpg", "products/68.html", "", true, "68"],
-      ["BAY-006", "gew98銃剣", "bayonet", "", "images/products/981.jpg", "products/98.html", "", true, "gew98"],
-      ["GREN-001", "F-1グレネード", "grenade", 1200, "images/products/f11.jpg", "products/F1.html", "", true, "F1"],
-      ["GREN-002", "RGD-5グレネード", "grenade", 1200, "images/products/rgd1.jpg", "products/rgd.html", "", true, "rgd"],
-      ["ACC-001", "AK系用銃剣吊り", "bayonet", 500, "images/products/turi1.jpg", "products/turi.html", "合皮／本革、ブラウン／グレー", true, "turi"],
-      ["ACC-002", "AKリアサイトシリーズ", "other", 1000, "images/products/sight1.jpg", "products/sight.html", "ソ連・北朝鮮・東ドイツ・中国・イラク", true, "sight"],
-      ["KIT-001", "改造キット（6kh4版）", "bayonet", 3500, "images/products/ls-arii-1.jpg", "products/ls-arii/kaizou-set.html", "", true, ""],
-      ["KIT-002", "改造キット（6kh3・6kh4版）", "bayonet", 6500, "images/products/ls-arii-1.jpg", "products/ls-arii/kaizou-set-6kh3-6kh4.html", "", true, ""],
-      ["KIT-003", "鞘", "other", 2000, "images/products/ls-arii-3.jpg", "products/ls-arii/saya.html", "", true, ""],
-      ["KIT-004", "刀身単品", "other", 1000, "images/products/ls-arii-4.jpg", "products/ls-arii/toushin.html", "", true, ""],
+      ["BAY-004", "56式半用銃剣", "bayonet", "", "images/商品/56h1.jpg", "products/56h.html", "", true, "56h"],
+      ["BAY-005", "68式銃剣", "bayonet", "", "images/商品/681.jpg", "products/68.html", "", true, "68"],
+      ["BAY-006", "gew98銃剣", "bayonet", "", "images/商品/981.jpg", "products/98.html", "", true, "gew98"],
+      ["GREN-001", "F-1グレネード", "grenade", 1200, "images/商品/f11.jpg", "products/F1.html", "", true, "F1"],
+      ["GREN-002", "RGD-5グレネード", "grenade", 1200, "images/商品/rgd1.jpg", "products/rgd.html", "", true, "rgd"],
+      ["ACC-001", "AK系用銃剣吊り", "bayonet", 500, "images/商品/turi1.jpg", "products/turi.html", "合皮／本革、ブラウン／グレー", true, "turi"],
+      ["ACC-002", "AKリアサイトシリーズ", "other", 1000, "images/商品/sight1.jpg", "products/sight.html", "ソ連・北朝鮮・東ドイツ・中国・イラク", true, "sight"],
+      ["KIT-001", "改造キット（6kh4版）", "bayonet", 3500, "images/商品/ls-arii-1.jpg", "products/ls-arii/kaizou-set.html", "", true, ""],
+      ["KIT-002", "改造キット（6kh3・6kh4版）", "bayonet", 6500, "images/商品/ls-arii-1.jpg", "products/ls-arii/kaizou-set-6kh3-6kh4.html", "", true, ""],
+      ["KIT-003", "鞘", "other", 2000, "images/商品/ls-arii-3.jpg", "products/ls-arii/saya.html", "", true, ""],
+      ["KIT-004", "刀身単品", "other", 1000, "images/商品/ls-arii-4.jpg", "products/ls-arii/toushin.html", "", true, ""],
       ["KIT-005", "ストラップ", "other", 300, "", "products/ls-arii/strap.html", "", true, ""]
     ];
     sheet.getRange(2, 1, initial.length, PRODUCT_HEADERS.length).setValues(initial);
