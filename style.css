@@ -1101,6 +1101,23 @@ html{
     gap:5px;
 }
 
+.order-form .cart-agreement{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    margin-top:8px;
+    padding-top:12px;
+    border-top:1px solid #444;
+    line-height:1.6;
+}
+
+.order-form .cart-agreement input{
+    flex:none;
+    width:18px;
+    min-height:18px;
+    margin-top:2px;
+}
+
 .order-form input{
     width:100%;
     min-height:42px;

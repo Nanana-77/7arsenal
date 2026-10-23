@@ -208,6 +208,7 @@ cartWidget.innerHTML = `
                 <textarea class="order-summary" rows="9" readonly></textarea>
             </label>
             <button type="button" class="copy-order-summary" hidden>注文内容をコピー</button>
+            <label class="cart-agreement"><input type="checkbox" name="info-agreement" required> よくあるお問い合わせ・各種注意事項を確認し、同意します</label>
         </form>
     </div>`;
 document.body.appendChild(cartWidget);
@@ -289,6 +290,10 @@ cartWidget.addEventListener("click", event => {
 const form = cartWidget.querySelector(".order-form");
 form.addEventListener("submit", async event => {
     event.preventDefault();
+    if (!cartWidget.querySelector('input[name="info-agreement"]').checked) {
+        alert("よくあるお問い合わせと各種注意事項を確認し、同意してください。");
+        return;
+    }
     if (!cart.length) {
         alert("カートに商品を追加してください。");
         return;
