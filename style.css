@@ -701,6 +701,295 @@ html{
     }
 }
 
+.product-number{
+    margin:0 15px 15px;
+    color:#aaa;
+    font-size:12px;
+    letter-spacing:.04em;
+}
+
+.unpainted-order-section{
+    max-width:900px;
+    margin:30px auto 0;
+    padding:20px;
+    background:#242424;
+    border:1px solid #555;
+}
+
+.unpainted-order-section h3{
+    margin-bottom:8px;
+}
+
+.unpainted-order-section > p{
+    margin-bottom:14px;
+    color:#bbb;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.unpainted-product-options{
+    display:grid;
+    gap:10px;
+    margin-bottom:16px;
+}
+
+.unpainted-product-options label{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.unpainted-product-options input{
+    accent-color:#c1121f;
+}
+
+.unpainted-product-options select{
+    min-height:36px;
+    padding:5px 8px;
+    color:white;
+    background:#111;
+    border:1px solid #666;
+}
+
+.unpainted-sku{
+    color:#aaa;
+    font-size:12px;
+}
+
+.product-info > .product-number{
+    margin:0 0 12px;
+}
+
+.product-order-controls{
+    display:grid;
+    gap:14px;
+    margin:22px 0;
+    padding:16px;
+    border:1px solid #555;
+    background:#242424;
+}
+
+.selected-variant-number{
+    margin:0;
+    color:#bbb;
+    font-size:12px;
+    letter-spacing:.04em;
+}
+
+.product-order-controls fieldset{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    border:0;
+}
+
+.product-order-controls legend,
+.hanger-options > strong{
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+.product-order-controls label,
+.cart-panel label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    line-height:1.5;
+}
+
+.product-order-controls input,
+.cart-panel input{
+    accent-color:#c1121f;
+}
+
+.hanger-options{
+    display:grid;
+    gap:8px;
+}
+
+.kit-blade-option select{
+    margin-left:8px;
+    min-height:38px;
+    padding:6px 10px;
+    background:#111;
+    color:white;
+    border:1px solid #666;
+}
+
+.add-to-cart-button,
+.order-submit{
+    min-height:44px;
+    padding:11px 18px;
+    background:#c1121f;
+    color:white;
+    border:0;
+    cursor:pointer;
+}
+
+.cart-widget{
+    position:fixed;
+    z-index:1000;
+    right:20px;
+    bottom:18px;
+    width:min(420px, calc(100vw - 32px));
+    color:white;
+    background:#111;
+    border:1px solid #666;
+    box-shadow:0 8px 30px #000a;
+}
+
+.cart-widget summary{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 16px;
+    background:#c1121f;
+    font-weight:bold;
+    cursor:pointer;
+    list-style:none;
+}
+
+.cart-widget summary::-webkit-details-marker{
+    display:none;
+}
+
+.cart-panel{
+    max-height:min(72vh, 680px);
+    padding:16px;
+    overflow:auto;
+}
+
+.cart-panel h2{
+    margin-bottom:14px;
+    font-size:20px;
+}
+
+.cart-lines{
+    display:grid;
+    gap:10px;
+}
+
+.cart-line{
+    display:grid;
+    gap:6px;
+    padding:10px 0;
+    border-bottom:1px solid #444;
+    font-size:13px;
+}
+
+.cart-line-title{
+    font-weight:bold;
+    overflow-wrap:anywhere;
+}
+
+.cart-line-controls{
+    display:flex;
+    gap:8px;
+}
+
+.cart-line-controls button{
+    min-width:36px;
+    min-height:34px;
+    padding:4px 9px;
+    font-size:14px;
+}
+
+.cart-shipping-note,
+.order-mail-note{
+    margin:10px 0;
+    color:#bbb;
+    font-size:12px;
+}
+
+.cart-fee-modes,
+.order-form{
+    display:grid;
+    gap:10px;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid #444;
+}
+
+.cart-fee-modes label,
+.order-form label{
+    font-size:14px;
+}
+
+.order-form label{
+    display:grid;
+    gap:5px;
+}
+
+.order-form input{
+    width:100%;
+    min-height:42px;
+    padding:8px 10px;
+    color:white;
+    background:#222;
+    border:1px solid #666;
+}
+
+.order-form textarea{
+    width:100%;
+    min-height:180px;
+    padding:10px;
+    color:white;
+    background:#222;
+    border:1px solid #666;
+    font:inherit;
+    line-height:1.5;
+}
+
+.order-form [hidden]{
+    display:none !important;
+}
+
+.order-total{
+    display:grid;
+    gap:5px;
+    font-size:13px;
+}
+
+.order-total strong{
+    font-size:18px;
+    overflow-wrap:anywhere;
+}
+
+.order-submit{
+    width:100%;
+}
+
+@media (max-width:600px){
+    .product-number{
+        margin:0 10px 12px;
+        font-size:11px;
+    }
+
+    .product-info > .product-number{
+        margin:0 0 10px;
+    }
+
+    .product-order-controls{
+        padding:12px;
+    }
+
+    .unpainted-order-section{
+        padding:14px;
+    }
+
+    .cart-widget{
+        right:8px;
+        bottom:8px;
+        width:calc(100vw - 16px);
+    }
+
+    .cart-panel{
+        max-height:70vh;
+        padding:12px;
+    }
+}
+
 .product-info h2{
     font-size:36px;
     margin-bottom:20px;
