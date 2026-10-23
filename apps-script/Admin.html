@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#171717;color:#f5f5f5;font:15px/1.6 system-ui,"Yu Gothic",sans-serif}
+    main{max-width:1100px;margin:0 auto;padding:24px}h1,h2{line-height:1.25}h1{font-size:25px}button,input,select,textarea{font:inherit}
+    input,select,textarea{width:100%;padding:9px;border:1px solid #666;background:#242424;color:white}button{padding:9px 14px;border:0;background:#bf1e2e;color:white;cursor:pointer}
+    button.secondary{background:#444}button.danger{background:#7b1820}.panel{margin:18px 0;padding:18px;background:#222;border:1px solid #444}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-grid label{display:grid;gap:5px}.form-grid .wide{grid-column:1/-1}
+    .active-row{display:flex!important;align-items:center;gap:8px!important}.active-row input{width:auto}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .products{display:grid;gap:10px}.product{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px;background:#2a2a2a;border:1px solid #444}.product small{display:block;color:#bbb}.actions{display:flex;align-items:center;gap:8px}
+    #message{min-height:24px;color:#f4bd62}.hidden{display:none!important}.warning{color:#ffd27a}.login{max-width:420px;margin:10vh auto}
+    @media(max-width:650px){main{padding:16px}.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}.product{grid-template-columns:1fr}.actions button{flex:1}}
+  </style>
+</head>
+<body>
+  <main>
+    <section id="login" class="panel login">
+      <h1>第七造兵廠 商品管理</h1>
+      <p>管理者パスワードを入力してください。</p>
+      <label>パスワード<input id="password" type="password" autocomplete="current-password"></label>
+      <p><button id="loginButton" type="button">ログイン</button></p>
+      <p id="loginMessage" role="status"></p>
+    </section>
+
+    <section id="changePassword" class="panel login hidden">
+      <h1>初期パスワードの変更</h1>
+      <p class="warning">仮パスワードから12文字以上のパスワードに変更してください。</p>
+      <label>新しいパスワード<input id="newPassword" type="password" minlength="12" autocomplete="new-password"></label>
+      <p><button id="changePasswordButton" type="button">変更して続行</button></p>
+      <p id="passwordMessage" role="status"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <h1>商品カード管理</h1>
+      <p>保存すると共有商品一覧に反映されます。商品番号・名前・価格を確認してから保存してください。</p>
+      <section class="panel">
+        <h2 id="formTitle">商品を追加</h2>
+        <form id="productForm" class="form-grid">
+          <label>商品番号<input name="sku" required maxlength="40"></label>
+          <label>商品名<input name="name" required maxlength="100"></label>
+          <label>カテゴリ<select name="category"><option value="bayonet">銃剣</option><option value="grenade">手りゅう弾</option><option value="other">その他</option></select></label>
+          <label>本体価格（円・未定は空欄）<input name="price" type="number" min="0" step="1"></label>
+          <label>画像URL（サイト内相対パスまたはhttps URL）<input name="imageURL" type="text"></label>
+          <label>詳細ページURL（相対パスまたはhttps URL）<input name="detailURL" type="text"></label>
+          <label class="wide">説明<input name="description" maxlength="500"></label>
+          <label>在庫表示キー（任意）<input name="statusKey" type="text"></label>
+          <label class="active-row"><input name="active" type="checkbox" checked> 商品カードを公開する</label>
+          <div class="wide toolbar"><button type="submit">保存</button><button id="clearButton" class="secondary" type="button">入力をクリア</button></div>
+        </form>
+      </section>
+      <section class="panel">
+        <div class="toolbar"><h2>登録商品</h2><button id="refreshButton" class="secondary" type="button">再読み込み</button></div>
+        <div id="productList" class="products"></div>
+      </section>
+      <p id="message" role="status"></p>
+    </section>
+  </main>
+
+  <script>
+    let adminToken = "";
+    let forcePasswordChange = false;
+    const byId = id => document.getElementById(id);
+    const showMessage = (id, message) => { byId(id).textContent = message || ""; };
+    const serverCall = (method, ...args) => new Promise((resolve, reject) => {
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(error => reject(new Error(error.message || String(error))))[method](...args);
+    });
+    const handleError = (id, error) => showMessage(id, error.message || String(error));
+
+    byId("loginButton").addEventListener("click", async () => {
+      showMessage("loginMessage", "確認しています…");
+      try {
+        const result = await serverCall("adminLogin", byId("password").value);
+        adminToken = result.token;
+        forcePasswordChange = result.changeRequired;
+        byId("login").classList.add("hidden");
+        if (forcePasswordChange) byId("changePassword").classList.remove("hidden");
+        else { byId("dashboard").classList.remove("hidden"); await loadProducts(); }
+      } catch (error) { handleError("loginMessage", error); }
+    });
+
+    byId("changePasswordButton").addEventListener("click", async () => {
+      try {
+        await serverCall("changeAdminPassword", adminToken, byId("newPassword").value);
+        forcePasswordChange = false;
+        byId("changePassword").classList.add("hidden");
+        byId("dashboard").classList.remove("hidden");
+        await loadProducts();
+      } catch (error) { handleError("passwordMessage", error); }
+    });
+
+    function clearForm(){
+      byId("productForm").reset();
+      byId("productForm").elements.sku.readOnly = false;
+      byId("formTitle").textContent = "商品を追加";
+    }
+
+    function renderProducts(products){
+      const root = byId("productList");
+      root.replaceChildren();
+      products.forEach(product => {
+        const row = document.createElement("article"); row.className = "product";
+        const description = document.createElement("div");
+        const title = document.createElement("strong"); title.textContent = `${product.sku} · ${product.name}`;
+        const meta = document.createElement("small"); meta.textContent = `${product.category} / ${product.price == null ? "価格未定" : `¥${Number(product.price).toLocaleString("ja-JP")}`} / ${product.active ? "公開中" : "非公開"}`;
+        const detail = document.createElement("small"); detail.textContent = product.detailURL || "詳細リンクなし";
+        description.append(title, meta, detail);
+        const actions = document.createElement("div"); actions.className = "actions";
+        const edit = document.createElement("button"); edit.type = "button"; edit.className = "secondary"; edit.textContent = "編集";
+        edit.addEventListener("click", () => fillForm(product));
+        const remove = document.createElement("button"); remove.type = "button"; remove.className = "danger"; remove.textContent = "削除";
+        remove.addEventListener("click", async () => {
+          if (!confirm(`${product.name}（${product.sku}）を削除しますか？`)) return;
+          try { renderProducts(await serverCall("deleteProduct", adminToken, product.sku)); showMessage("message", "削除しました。"); }
+          catch (error) { handleError("message", error); }
+        });
+        actions.append(edit, remove); row.append(description, actions); root.appendChild(row);
+      });
+    }
+
+    function fillForm(product){
+      const form = byId("productForm");
+      for (const name of ["sku", "name", "category", "price", "imageURL", "detailURL", "description", "statusKey"]) form.elements[name].value = product[name] ?? "";
+      form.elements.active.checked = Boolean(product.active);
+      form.elements.sku.readOnly = true;
+      byId("formTitle").textContent = `商品を編集：${product.sku}`;
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    async function loadProducts(){
+      try { renderProducts(await serverCall("listAdminProducts", adminToken)); }
+      catch (error) { handleError("message", error); }
+    }
+
+    byId("productForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const product = Object.fromEntries(new FormData(form).entries());
+      product.active = form.elements.active.checked;
+      try { renderProducts(await serverCall("saveProduct", adminToken, product)); clearForm(); showMessage("message", "保存しました。"); }
+      catch (error) { handleError("message", error); }
+    });
+    byId("clearButton").addEventListener("click", clearForm);
+    byId("refreshButton").addEventListener("click", loadProducts);
+  </script>
+</body>
+</html>
