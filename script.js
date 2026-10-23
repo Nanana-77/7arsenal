@@ -395,7 +395,7 @@ if (currentOrderProduct?.orderable === false) {
             <label class="paint-style-option">塗装仕様
                 <select name="paint-style"><option value="B">ベークライト塗装</option><option value="G">東独風ブラック</option></select>
             </label>
-            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ${model}ガレージキット版（未塗装・未組立）にする</label>
+            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ガレージキット版（未塗装・未組立）にする</label>
             <button type="button" class="add-to-cart-button">カートに追加</button>`;
         const updateVariant = () => {
             const material = controls.querySelector('input[name="blade-material"]:checked').value;
@@ -435,7 +435,7 @@ if (currentOrderProduct?.orderable === false) {
             <label class="paint-style-option">本体の塗装仕様
                 <select name="paint-style"><option value="B">ベークライト塗装</option><option value="G">東独風ブラック</option></select>
             </label>
-            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ${currentOrderProduct.bodyModel}本体をガレージキット版（未塗装・未組立）にする</label>
+            <label class="unpainted-option"><input type="checkbox" name="unpainted"> ガレージキット版（未塗装・未組立）にする</label>
             <label class="kit-blade-option">セット刀身素材
                 <select name="kit-blade"><option value="PLA+">PLA+</option><option value="シルクPLA" selected>シルクPLA</option></select>
             </label>
