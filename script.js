@@ -120,7 +120,7 @@ fetch(sheetURL)
 const sharedCatalogApiUrl = "";
 
 const orderablePages = {
-    "products/6kh2ussr.html": {sku:"BAY-001", name:"6kh2タイプ バヨネット", price:4500, unpaintedPrice:4500, type:"bayonet"},
+    "products/6kh2ussr.html": {sku:"BAY-001", name:"6kh2タイプ バヨネット", price:4500, unpaintedPrice:4000, type:"bayonet"},
     "products/6kh3ussr.html": {sku:"BAY-002", name:"6kh3タイプ バヨネット（ガレージキット版）", price:6500, unpaintedPrice:5000, type:"bayonet"},
     "products/6kh4ussr.html": {sku:"BAY-003", name:"6kh4タイプ バヨネット", price:6500, type:"bayonet", orderable:false},
     "products/F1.html": {sku:"GREN-001", name:"F-1グレネード", price:1200},
