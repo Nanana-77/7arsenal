@@ -212,6 +212,7 @@ cartWidget.innerHTML = `
                     <option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option>
                     <option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option>
                     <option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+                    <option value="海外（要相談）">海外（要相談）</option>
                 </select>
             </label>
             <p class="order-total">合計（送料別）<strong>¥0</strong></p>
