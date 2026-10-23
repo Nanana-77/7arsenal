@@ -25,7 +25,7 @@ a:hover{
 }
 
 a:focus-visible{
-    outline:2px solid #ffd166;
+    outline:2px solid #fff;
     outline-offset:3px;
 }
 
@@ -1461,3 +1461,14 @@ html{
         width:68px;
         height:68px;
     }
+
+}
+
+/* Final override: all links stay white and underlined across the site. */
+a:any-link,
+a:any-link:hover,
+a:any-link:focus,
+a:any-link:active{
+    color:#fff;
+    text-decoration:underline;
+}
