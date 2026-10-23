@@ -157,26 +157,6 @@ if (currentOrderProduct) {
 const CART_STORAGE_KEY = "7arsenal-cart-v1";
 const GOOGLE_ORDER_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeDbF79hc3UA5Cm3W9uLHqvxWRmMGQDSyhO6-l0fP5D-TMFLA/viewform?usp=publish-editor";
 
-const inquiryForm = document.querySelector("#contact-inquiry-form");
-inquiryForm?.addEventListener("submit", async event => {
-    event.preventDefault();
-    const message = inquiryForm.querySelector("[name='message']").value.trim();
-    if (!message) return;
-
-    const formTab = window.open("about:blank", "_blank");
-    const status = inquiryForm.querySelector(".contact-inquiry-status");
-    try {
-        await navigator.clipboard.writeText(message);
-        status.textContent = "お問い合わせ内容をコピーしました。Googleフォームの「備考」欄に貼り付けてください。";
-    } catch {
-        inquiryForm.querySelector("[name='message']").focus();
-        inquiryForm.querySelector("[name='message']").select();
-        status.textContent = "Googleフォームを開きます。お問い合わせ内容をコピーして「備考」欄に貼り付けてください。";
-    }
-    if (formTab) formTab.location.href = GOOGLE_ORDER_FORM_URL;
-    else location.href = GOOGLE_ORDER_FORM_URL;
-});
-
 let cart = [];
 try {
     cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
