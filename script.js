@@ -129,6 +129,7 @@ const orderablePages = {
     "products/sight.html": {sku:"ACC-002", name:"AKリアサイトシリーズ", options:[{label:"製造国", choices:[{label:"ソ連", sku:"ACC-002-USSR", price:1000},{label:"北朝鮮", sku:"ACC-002-DPRK", price:1000},{label:"東ドイツ", sku:"ACC-002-GDR", price:1000},{label:"中国", sku:"ACC-002-CHN", price:1000},{label:"イラク", sku:"ACC-002-IRQ", price:1000}]}]},
     "products/ls-arii/kaizou-set.html": {sku:"KIT-001", name:"改修セット（6kh4）", price:3500, unpaintedPrice:3000, type:"kit", bodyModel:"6kh4", hangers:1},
     "products/ls-arii/kaizou-set-6kh3-6kh4.html": {sku:"KIT-002", name:"改修セット（6kh3・6kh4）", price:6500, unpaintedPrice:5500, type:"kit", bodyModel:"6kh3", hangers:2},
+    "products/ls-arii/6kh3-body.html": {sku:"KIT-006", name:"6kh3本体", price:3500, unpaintedPrice:3000, type:"bayonet", bodyModel:"6kh3"},
     "products/ls-arii/saya.html": {sku:"KIT-003", name:"6kh4鞘単品", price:1500},
     "products/ls-arii/toushin.html": {sku:"KIT-004", name:"刀身単品", price:1000, type:"blade"},
     "products/ls-arii/strap.html": {sku:"KIT-005", name:"ストラップ", price:300},
@@ -347,7 +348,7 @@ if (currentOrderProduct?.orderable === false) {
     let variant = "";
 
     if (currentOrderProduct.type === "bayonet") {
-        const model = {"BAY-001":"6kh2", "BAY-002":"6kh3", "BAY-003":"6kh4"}[currentOrderProduct.sku];
+        const model = currentOrderProduct.bodyModel || {"BAY-001":"6kh2", "BAY-002":"6kh3", "BAY-003":"6kh4"}[currentOrderProduct.sku];
         controls.innerHTML = `
             <fieldset><legend>刀身素材（同一価格）</legend>
                 <label><input type="radio" name="blade-material" value="PLA+" checked> PLA+</label>
