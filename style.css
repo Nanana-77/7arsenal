@@ -873,12 +873,29 @@ html{
 .cart-widget summary{
     display:flex;
     justify-content:space-between;
+    align-items:center;
     gap:12px;
     padding:14px 16px;
     background:#c1121f;
     font-weight:bold;
     cursor:pointer;
     list-style:none;
+}
+
+.cart-toggle-state{
+    flex:none;
+    color:#fff;
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.cart-widget[open] .cart-toggle-state{
+    font-size:0;
+}
+
+.cart-widget[open] .cart-toggle-state::after{
+    content:"閉じる ▲";
+    font-size:12px;
 }
 
 .cart-widget summary::-webkit-details-marker{
@@ -891,9 +908,38 @@ html{
     overflow:auto;
 }
 
-.cart-panel h2{
+.cart-panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
     margin-bottom:14px;
+}
+
+.cart-panel h2{
+    margin:0;
     font-size:20px;
+}
+
+.cart-close{
+    flex:none;
+    min-height:44px;
+    padding:8px 14px;
+    border:2px solid #aaa;
+    background:#333;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.cart-close:hover{
+    background:#555;
+    color:#fff;
+}
+
+.cart-close:focus-visible{
+    outline:3px solid #ffd166;
+    outline-offset:2px;
 }
 
 .cart-lines{
@@ -1018,6 +1064,21 @@ html{
     .cart-panel{
         max-height:70vh;
         padding:12px;
+    }
+
+    .cart-widget summary{
+        gap:8px;
+        padding:12px;
+        font-size:14px;
+    }
+
+    .cart-panel h2{
+        font-size:18px;
+    }
+
+    .cart-close{
+        min-height:42px;
+        padding:7px 11px;
     }
 }
 

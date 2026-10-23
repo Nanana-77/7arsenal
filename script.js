@@ -178,9 +178,12 @@ const addCartItem = item => {
 const cartWidget = document.createElement("details");
 cartWidget.className = "cart-widget";
 cartWidget.innerHTML = `
-    <summary><span>カート <b class="cart-count">0</b></span><span>合計 <b class="cart-total">¥0</b></span></summary>
+    <summary><span>カート <b class="cart-count">0</b></span><span>合計 <b class="cart-total">¥0</b></span><span class="cart-toggle-state">開く ▼</span></summary>
     <div class="cart-panel">
-        <h2>ご注文内容</h2>
+        <div class="cart-panel-header">
+            <h2>ご注文内容</h2>
+            <button type="button" class="cart-close" aria-label="カートを閉じる">閉じる ×</button>
+        </div>
         <div class="cart-lines"></div>
         <p class="cart-shipping-note">送料は別途確認となります。</p>
         <p class="cart-coupon-note"></p>
@@ -201,6 +204,11 @@ cartWidget.innerHTML = `
         </form>
     </div>`;
 document.body.appendChild(cartWidget);
+
+cartWidget.querySelector(".cart-close").addEventListener("click", () => {
+    cartWidget.open = false;
+    cartWidget.querySelector("summary").focus();
+});
 
 const renderCart = () => {
     const lines = cartWidget.querySelector(".cart-lines");
