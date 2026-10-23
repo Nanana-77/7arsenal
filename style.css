@@ -1025,16 +1025,12 @@ html{
 }
 
 .contact-inquiry{
-    max-width:900px;
-    margin:60px auto;
-    padding:24px;
+    max-width:760px;
+    margin:24px auto 32px;
+    padding:20px;
     background:#242424;
     border:1px solid #444;
-}
-
-.contact-inquiry h2{
-    margin-bottom:12px;
-    text-align:center;
+    text-align:left;
 }
 
 .contact-inquiry > p,
