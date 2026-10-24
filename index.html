@@ -47,7 +47,9 @@
     <nav>
         <a href="#">ホーム</a>
         <a href="#product">作品一覧</a>
+        <a href="#order-flow">注文の流れ</a>
         <a href="#contact">SNS・お問い合わせ</a>
+        <a href="transactions.html">販売条件</a>
     </nav>
 </header>
 
@@ -234,6 +236,19 @@
     </div>
 
 </section>
+<section class="order-flow-section" id="order-flow" aria-labelledby="order-flow-title">
+    <h2 id="order-flow-title">ご注文から発送まで</h2>
+    <ol class="order-flow-list">
+        <li><strong>見積もり依頼</strong><span>カートで商品・数量・販売形式・クーポン・お届け先都道府県を選び、フォームから送信します。この送信だけでは注文は確定しません。</span></li>
+        <li><strong>内容と条件のご案内</strong><span>当方から、商品代・手数料・送料を含むお支払総額、支払方法、商品ごとの発送目安を返信します。</span></li>
+        <li><strong>内容の確認</strong><span>金額・仕様・発送目安をご確認のうえ、問題がなければ返信してください。ご返信を受けるまでは製作・請求を進めません。</span></li>
+        <li><strong>お支払いと注文確定</strong><span>お支払い方法と期限、振込先等をご案内します。ご案内した期限までにお支払いを確認した時点で注文確定となり、製作を開始します。</span></li>
+        <li><strong>完成品の確認</strong><span>製作完了後、発送前に写真をお送りします。確認後、発送に必要な住所をお知らせください。</span></li>
+        <li><strong>発送</strong><span>ご案内した発送目安に沿って発送し、発送後に追跡情報をお知らせします。</span></li>
+    </ol>
+    <p class="order-flow-note">価格・送料・納期は注文確定前に個別に提示します。受注生産品の発送目安は商品ごとに異なります。</p>
+</section>
+
 <section class="info-tabs-section" aria-label="ご利用案内">
     <div class="info-tabs" role="tablist" aria-label="ご利用案内の種類">
         <button id="faq-tab" class="info-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="faq-panel">よくあるお問い合わせ</button>
@@ -267,11 +282,11 @@
         </details>
         <details>
             <summary>送料や支払い方法はどうなりますか？</summary>
-            <p>送料はご注文内容を確認後にご案内します。商品本体価格が10,000円以上の場合は送料無料クーポンの対象です。直接取引では、PAYPAYまたは銀行振込の希望をカートで選べます。</p>
+            <p>カートからの送信は見積もり依頼です。送料はレターパック（ライト430円・プラス600円）、定形外郵便（140円～1,750円）、ゆうパック60サイズ（静岡県発送840円～1,750円）等から、商品・地域に合う方法を選びます。送料を含む総額、支払期限、商品ごとの発送目安を注文確定前にご案内します。商品本体価格が10,000円以上の場合は送料無料クーポンの対象です。直接取引では、PAYPAYまたは銀行振込の希望をカートで選べます。<a href="transactions.html">販売条件の詳細</a></p>
         </details>
         <details>
             <summary>在庫表示の「受注生産」はどういう意味ですか？</summary>
-            <p>ご注文後に製作する商品です。製作期間は注文内容を確認してご案内します。</p>
+            <p>ご注文後に製作する商品です。注文確定前に商品ごとの発送目安をお知らせし、ご確認をいただいてからお支払い・製作に進みます。</p>
         </details>
     </div>
     <div id="notices-panel" class="info-tab-panel" role="tabpanel" aria-labelledby="notices-tab" hidden>
@@ -321,6 +336,8 @@
             <i class="fa-solid fa-book-open"></i>
             <span>note(開発ブログ)</span>
         </a>
+
+        <a href="transactions.html"><i class="fa-solid fa-file-contract"></i><span>特定商取引法に基づく表記・販売条件</span></a>
 
     </div>
 

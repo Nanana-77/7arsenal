@@ -1218,6 +1218,76 @@ html{
     }
 }
 
+.transaction-page{
+    width:min(1000px, calc(100% - 40px));
+    margin:42px auto;
+    line-height:1.75;
+}
+
+.transaction-page > h1{
+    margin-bottom:14px;
+    font-size:clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.transaction-page > h2{
+    margin:34px 0 14px;
+    font-size:1.45rem;
+}
+
+.transaction-list{
+    display:grid;
+    grid-template-columns:minmax(150px, .8fr) minmax(0, 2fr);
+    border-top:1px solid #555;
+}
+
+.transaction-list dt,
+.transaction-list dd{
+    padding:13px 14px;
+    border-bottom:1px solid #555;
+}
+
+.transaction-list dt{
+    font-weight:700;
+    background:#252525;
+}
+
+.transaction-list dd{
+    margin:0;
+}
+
+.transaction-steps{
+    padding-left:1.5em;
+}
+
+.transaction-steps li{
+    margin:10px 0;
+    padding-left:4px;
+}
+
+.transaction-note{
+    margin-top:24px;
+    padding:14px;
+    border:1px solid #9a7b37;
+    background:#2d281e;
+}
+
+@media (max-width:600px){
+    .transaction-page{
+        width:calc(100% - 32px);
+        margin:30px auto;
+    }
+    .transaction-list{
+        grid-template-columns:1fr;
+    }
+    .transaction-list dt{
+        padding-bottom:4px;
+        border-bottom:0;
+    }
+    .transaction-list dd{
+        padding-top:4px;
+    }
+}
+
 .product-info h2{
     font-size:36px;
     margin-bottom:20px;
@@ -1605,4 +1675,72 @@ a:any-link:focus,
 a:any-link:active{
     color:#fff;
     text-decoration:underline;
+}
+
+.order-flow-section{
+    width:min(1100px, calc(100% - 40px));
+    margin:48px auto;
+    padding:28px;
+    border:1px solid #555;
+    background:#232323;
+}
+
+.order-flow-section h2{
+    margin:0 0 20px;
+}
+
+.order-flow-list{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:12px;
+    list-style:none;
+    counter-reset:order-step;
+}
+
+.order-flow-list li{
+    counter-increment:order-step;
+    display:grid;
+    grid-template-columns:42px minmax(0, 1fr);
+    gap:4px 12px;
+    align-items:start;
+    padding:16px;
+    border:1px solid #555;
+    background:#1b1b1b;
+}
+
+.order-flow-list li::before{
+    content:counter(order-step);
+    grid-row:span 2;
+    display:grid;
+    place-items:center;
+    width:36px;
+    height:36px;
+    border:1px solid #aaa;
+    border-radius:50%;
+    font-weight:700;
+}
+
+.order-flow-list li strong{
+    font-size:1.05rem;
+}
+
+.order-flow-list li span,
+.order-flow-note{
+    line-height:1.7;
+    color:#e2e2e2;
+}
+
+.order-flow-note{
+    margin-top:16px;
+}
+
+@media (max-width:600px){
+    .order-flow-section{
+        width:calc(100% - 32px);
+        margin:32px auto;
+        padding:18px 14px;
+    }
+    .order-flow-list{
+        grid-template-columns:1fr;
+    }
 }

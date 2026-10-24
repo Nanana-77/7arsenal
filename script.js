@@ -71,6 +71,16 @@ if (document.querySelector("header") && !document.querySelector(".breadcrumbs"))
     document.querySelector("header").insertAdjacentElement("afterend", breadcrumb);
 }
 
+const legalTermsUrl = new URL("transactions.html", siteRoot).href;
+document.querySelectorAll("footer .footer-links").forEach(footerLinks => {
+    const hasLegalLink = [...footerLinks.querySelectorAll("a")].some(link => link.href === legalTermsUrl);
+    if (hasLegalLink) return;
+    const link = document.createElement("a");
+    link.href = legalTermsUrl;
+    link.innerHTML = '<i class="fa-solid fa-file-contract"></i><span>特定商取引法に基づく表記・販売条件</span>';
+    footerLinks.appendChild(link);
+});
+
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8BMJVJDYwKlPgG3u4QReL1l45KmchvkWXeQs5Z9LHbe0gHTwxZAcxCF_6NSoUcLdAFcE8nEIN8Iyz/pub?output=csv";
 const statusText = {
     stock: "在庫あり",
@@ -183,11 +193,11 @@ cartWidget.innerHTML = `
     <summary><span>カート <b class="cart-count">0</b></span><span>合計 <b class="cart-total">¥0</b></span><span class="cart-toggle-state">開く ▼</span></summary>
     <div class="cart-panel">
         <div class="cart-panel-header">
-            <h2>ご注文内容</h2>
+            <h2>見積もり依頼内容</h2>
             <button type="button" class="cart-close" aria-label="カートを閉じる">閉じる ×</button>
         </div>
         <div class="cart-lines"></div>
-        <p class="cart-shipping-note">送料は別途確認となります。</p>
+        <p class="cart-shipping-note">配送方法・送料は商品内容と地域に応じ、注文確定前にご案内します。</p>
         <p class="cart-coupon-note"></p>
         <div class="cart-fee-modes" role="group" aria-label="販売形式・手数料">
             <strong>販売形式（いずれか1つ）</strong>
@@ -216,13 +226,13 @@ cartWidget.innerHTML = `
                 </select>
             </label>
             <p class="order-total">合計（送料別）<strong>¥0</strong></p>
-            <button type="submit" class="order-submit">Googleフォームで注文する</button>
-            <p class="order-mail-note">フォームが別画面で開きます。氏名・返信用メール・販売形式を入力し、下の注文内容を貼り付けて送信してください。</p>
-            <label class="order-summary-label" hidden>フォームに貼り付ける注文内容
+            <button type="submit" class="order-submit">フォームで見積もりを依頼する</button>
+            <p class="order-mail-note">フォームが別画面で開きます。氏名・返信用メール・販売形式を入力し、下の依頼内容を貼り付けてください。送信だけでは注文は確定しません。</p>
+            <label class="order-summary-label" hidden>フォームに貼り付ける依頼内容
                 <textarea class="order-summary" rows="9" readonly></textarea>
             </label>
             <button type="button" class="copy-order-summary" hidden>注文内容をコピー</button>
-            <label class="cart-agreement"><input type="checkbox" name="info-agreement" required> よくあるお問い合わせ・各種注意事項を確認し、同意します</label>
+            <label class="cart-agreement"><input type="checkbox" name="info-agreement" required> よくあるお問い合わせ・各種注意事項を確認し、<a href="${legalTermsUrl}" target="_blank" rel="noopener noreferrer">販売条件</a>を確認したうえで、見積もり依頼として送信します</label>
         </form>
     </div>`;
 document.body.appendChild(cartWidget);
@@ -251,7 +261,7 @@ const renderCart = () => {
     });
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     cartWidget.querySelector(".cart-count").textContent = count;
-    cartWidget.querySelector(".cart-shipping-note").textContent = `${cart.some(item => item.quoteRequired) ? "価格未定の商品は確認後にご案内します。" : ""}送料は別途確認となります。`;
+    cartWidget.querySelector(".cart-shipping-note").textContent = `${cart.some(item => item.quoteRequired) ? "価格未定の商品は確認後にご案内します。" : ""}配送方法・送料は商品内容と地域に応じ、注文確定前にご案内します。`;
     updateCartTotal();
 };
 
@@ -321,22 +331,25 @@ form.addEventListener("submit", async event => {
     const modeNames = {direct:"直接取引", mercari:"メルカリ", yahoo:"Yahoo!フリマ"};
     const orderLines = cart.map(item => `${item.sku} ${item.name}${item.variant ? `（${item.variant}）` : ""} ×${item.quantity}：${item.quoteRequired ? "価格確認・見積もり希望" : yen(item.price * item.quantity)}`);
     const uniquePart = window.crypto?.randomUUID ? crypto.randomUUID().slice(0, 8).toUpperCase() : Math.random().toString(36).slice(2, 10).toUpperCase();
-    const orderNumber = `ORD-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${uniquePart}`;
+    const orderDate = new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Tokyo", year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date()).replaceAll("-", "");
+    const orderNumber = `ORD-${orderDate}-${uniquePart}`;
     const shippingCoupon = base >= 10000 ? "7ARS-FREESHIP（送料無料）" : "対象外（商品本体価格10,000円未満）";
     const body = [
-        `注文番号：${orderNumber}`,
+        `見積もり依頼番号：${orderNumber}`,
+        "この送信は見積もり依頼で、注文は確定していません。",
         `販売形式：${modeNames[selectedSaleMode()]}`,
         `お支払い方法の希望：${selectedSaleMode() === "direct" ? selectedPaymentMethod() : "販売形式に準じる"}`,
         `お届け先都道府県：${deliveryPrefecture}`,
         "",
-        "注文商品：",
+        "依頼商品：",
         ...orderLines,
         "",
         `商品小計：${yen(base)}`,
         `サイト手数料分：${yen(fee)}`,
         `合計：${yen(total)}`,
         `送料：${base >= 10000 ? "送料無料" : "別途確認"}`,
-        `送料無料クーポン：${shippingCoupon}`
+        `送料無料クーポン：${shippingCoupon}`,
+        "配送候補：レターパック（ライト／プラス）、定形外郵便、ゆうパック60サイズ等。商品サイズ・重量・お届け先に合わせて送料を事前案内。"
     ].join("\n");
     const summaryLabel = cartWidget.querySelector(".order-summary-label");
     const summaryField = cartWidget.querySelector(".order-summary");
@@ -345,7 +358,7 @@ form.addEventListener("submit", async event => {
     summaryLabel.hidden = false;
     copyButton.hidden = false;
     copyButton.textContent = "注文内容をコピー";
-    cartWidget.querySelector(".order-mail-note").textContent = "別画面のフォームに氏名・返信用メール・販売形式を入力し、下の注文内容を貼り付けてください。";
+    cartWidget.querySelector(".order-mail-note").textContent = "別画面のフォームに氏名・返信用メール・販売形式を入力し、下の依頼内容を貼り付けてください。注文確定前に送料・総額・発送目安をご案内します。";
     const formTab = window.open("about:blank", "_blank");
     try {
         await navigator.clipboard.writeText(body);
